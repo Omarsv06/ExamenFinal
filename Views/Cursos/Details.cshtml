@@ -1,0 +1,40 @@
+@model Curso
+
+@{
+    ViewData["Title"] = "Detalle del curso";
+}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h2 class="mb-3">Detalle del curso</h2>
+
+        <dl class="row">
+            <dt class="col-sm-3">Nombre</dt>
+            <dd class="col-sm-9">@Model.Nombre</dd>
+
+            <dt class="col-sm-3">Materia</dt>
+            <dd class="col-sm-9">@Model.Materia</dd>
+
+            <dt class="col-sm-3">Docente</dt>
+            <dd class="col-sm-9">
+                @(Model.Docente?.Nombre ?? "Sin docente")
+            </dd>
+
+            <dt class="col-sm-3">Estado</dt>
+            <dd class="col-sm-9">
+                @(Model.Disponible ? "Disponible" : "No disponible")
+            </dd>
+
+            <dt class="col-sm-3">Descripción</dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.Descripcion) 
+                    ? "Sin descripción" 
+                    : Model.Descripcion)
+            </dd>
+        </dl>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Volver
+        </a>
+    </div>
+</div>

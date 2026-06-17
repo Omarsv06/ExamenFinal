@@ -1,0 +1,187 @@
+@using System.Linq
+@model IEnumerable<Curso>
+
+@{
+    ViewData["Title"] = "Cursos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h3 mb-0">Gestión de Cursos</h1>
+        <p class="text-muted mb-0">
+            Administre los cursos, docentes y disponibilidad.
+        </p>
+    </div>
+
+    <a class="btn btn-success" asp-action="Create">
+        Crear curso
+    </a>
+</div>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["MensajeExito"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<form method="get" class="row g-2 mb-4">
+
+    <div class="col-md-4">
+        <input name="materia"
+               value="@ViewBag.Materia"
+               class="form-control"
+               placeholder="Buscar por materia..." />
+    </div>
+
+    <div class="col-md-3">
+        <select name="disponibles" class="form-select">
+            <option value="">Todos los estados</option>
+
+            @if (ViewBag.Disponibles == true)
+            {
+                <option value="true" selected>
+                    Disponibles
+                </option>
+            }
+            else
+            {
+                <option value="true">
+                    Disponibles
+                </option>
+            }
+
+            @if (ViewBag.Disponibles == false)
+            {
+                <option value="false" selected>
+                    No disponibles
+                </option>
+            }
+            else
+            {
+                <option value="false">
+                    No disponibles
+                </option>
+            }
+
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">
+            Buscar
+        </button>
+    </div>
+
+    <div class="col-md-3">
+        <a class="btn btn-secondary w-100"
+           asp-action="JsonCursos"
+           target="_blank">
+            Ver JSON
+        </a>
+    </div>
+
+</form>
+
+<div class="alert alert-info">
+    Total de cursos registrados:
+    <strong>@Model.Count()</strong>
+</div>
+
+@if (Model.Any())
+{
+    <div class="table-responsive">
+
+        <table class="table table-hover table-bordered align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Materia</th>
+                    <th>Docente</th>
+                    <th>Estado</th>
+                    <th>Descripción</th>
+                    <th style="width: 260px;">Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var curso in Model)
+                {
+                    <tr>
+
+                        <td>
+                            <strong>@curso.Nombre</strong>
+                        </td>
+
+                        <td>
+                            @curso.Materia
+                        </td>
+
+                        <td>
+                            @(curso.Docente?.Nombre ?? "Sin docente")
+                        </td>
+
+                        <td>
+                            @if (curso.Disponible)
+                            {
+                                <span class="badge bg-success">
+                                    Disponible
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    No disponible
+                                </span>
+                            }
+                        </td>
+
+                        <td>
+                            @(string.IsNullOrWhiteSpace(curso.Descripcion)
+                                ? "Sin descripción"
+                                : curso.Descripcion)
+                        </td>
+
+                        <td>
+                            <div class="d-flex gap-1">
+
+                                <a asp-action="Details"
+                                   asp-route-id="@curso.Id"
+                                   class="btn btn-info btn-sm">
+                                    Detalles
+                                </a>
+
+                                <a asp-action="Edit"
+                                   asp-route-id="@curso.Id"
+                                   class="btn btn-warning btn-sm">
+                                    Editar
+                                </a>
+
+                                <a asp-action="Delete"
+                                   asp-route-id="@curso.Id"
+                                   class="btn btn-danger btn-sm">
+                                    Eliminar
+                                </a>
+
+                            </div>
+                        </td>
+
+
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        No se encontraron cursos con los filtros seleccionados.
+    </div>
+}

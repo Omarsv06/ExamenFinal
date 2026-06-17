@@ -1,0 +1,39 @@
+@model AcademicManagementSystem.Models.Curso
+
+@{
+    ViewData["Title"] = "Eliminar Curso";
+}
+
+<h2>Eliminar Curso</h2>
+
+<h4>¿Estás seguro de que deseas eliminar este curso?</h4>
+
+<div class="border p-3">
+    <dl class="row">
+        <dt class="col-sm-3">Nombre</dt>
+        <dd class="col-sm-9">@Model.Nombre</dd>
+
+        <dt class="col-sm-3">Materia</dt>
+        <dd class="col-sm-9">@Model.Materia</dd>
+
+        <dt class="col-sm-3">Descripción</dt>
+        <dd class="col-sm-9">@Model.Descripcion</dd>
+
+        <dt class="col-sm-3">Disponible</dt>
+        <dd class="col-sm-9">
+            @(Model.Disponible ? "Sí" : "No")
+        </dd>
+
+        <dt class="col-sm-3">Docente</dt>
+        <dd class="col-sm-9">
+            @(Model.Docente != null ? Model.Docente.Nombre : "Sin docente")
+        </dd>
+    </dl>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
