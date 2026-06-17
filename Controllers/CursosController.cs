@@ -4,12 +4,14 @@ using AcademicManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace AcademicManagementSystem.Controllers;
 
 public class CursosController : Controller
 {
     private readonly IRepositorio<Curso> _cursoRepositorio;
     private readonly IRepositorio<Docente> _docenteRepositorio;
+
     public CursosController(
         IRepositorio<Curso> cursoRepositorio,
         IRepositorio<Docente> docenteRepositorio)
@@ -51,18 +53,20 @@ public class CursosController : Controller
         return View(curso);
     }
 
-    [Authorize]
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        var viewModel = new CursoCreateViewModel();
+        if (!User.Identity!.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Registro");
+        }
 
+        var viewModel = new CursoCreateViewModel();
         await CargarDocentesAsync(viewModel);
 
         return View(viewModel);
     }
 
-    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CursoCreateViewModel viewModel)
@@ -75,16 +79,19 @@ public class CursosController : Controller
 
         await _cursoRepositorio.AgregarAsync(viewModel.ToEntity());
 
-        TempData["MensajeExito"] =
-            "Curso registrado correctamente.";
+        TempData["MensajeExito"] = "Curso registrado correctamente.";
 
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize]
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
+        if (!User.Identity!.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Registro");
+        }
+
         var curso = await _cursoRepositorio.ObtenerPorIdAsync(id);
 
         if (curso == null)
@@ -105,37 +112,42 @@ public class CursosController : Controller
         return View(viewModel);
     }
 
-    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(CursoCreateViewModel viewModel)
     {
-    if (!ModelState.IsValid)
-    {
-        await CargarDocentesAsync(viewModel);
-        return View(viewModel);
+        if (!ModelState.IsValid)
+        {
+            await CargarDocentesAsync(viewModel);
+            return View(viewModel);
+        }
+
+        var curso = await _cursoRepositorio.ObtenerPorIdAsync(viewModel.Id);
+
+        if (curso == null)
+            return NotFound();
+
+        curso.Nombre = viewModel.Nombre;
+        curso.Materia = viewModel.Materia;
+        curso.Descripcion = viewModel.Descripcion;
+        curso.Disponible = viewModel.Disponible;
+        curso.DocenteId = viewModel.DocenteId;
+
+        await _cursoRepositorio.ActualizarAsync(curso);
+
+        TempData["MensajeExito"] = "Curso actualizado correctamente.";
+
+        return RedirectToAction(nameof(Index));
     }
-    var curso = await _cursoRepositorio.ObtenerPorIdAsync(viewModel.Id);
-    if (curso == null)
-        return NotFound();
-    curso.Nombre = viewModel.Nombre;
-    curso.Materia = viewModel.Materia;
-    curso.Descripcion = viewModel.Descripcion;
-    curso.Disponible = viewModel.Disponible;
-    curso.DocenteId = viewModel.DocenteId;
 
-    await _cursoRepositorio.ActualizarAsync(curso);
-
-    TempData["MensajeExito"] =
-        "Curso actualizado correctamente.";
-        
-    return RedirectToAction(nameof(Index));
-}
-
-    [Authorize]
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
+        if (!User.Identity!.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Registro");
+        }
+
         var curso = await _cursoRepositorio.ObtenerPorIdAsync(id);
 
         if (curso == null)
@@ -144,7 +156,6 @@ public class CursosController : Controller
         return View(curso);
     }
 
-    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
@@ -156,8 +167,7 @@ public class CursosController : Controller
 
         await _cursoRepositorio.EliminarAsync(curso);
 
-        TempData["MensajeExito"] =
-            "Curso eliminado correctamente.";
+        TempData["MensajeExito"] = "Curso eliminado correctamente.";
 
         return RedirectToAction(nameof(Index));
     }
@@ -165,9 +175,8 @@ public class CursosController : Controller
     [HttpGet]
     public async Task<IActionResult> JsonCursos()
     {
-        var cursos = await _cursoRepositorio.ObtenerTodosAsync(
-            c => c.Docente!
-        );
+        var cursos = await _cursoRepositorio.ObtenerTodosAsync(c => c.Docente!);
+
         var resultado = cursos.Select(c => new
         {
             c.Id,
@@ -175,9 +184,7 @@ public class CursosController : Controller
             c.Materia,
             c.Descripcion,
             c.Disponible,
-            Docente = c.Docente != null
-                ? c.Docente.Nombre
-                : "Sin docente"
+            Docente = c.Docente != null ? c.Docente.Nombre : "Sin docente"
         });
 
         return Json(resultado);

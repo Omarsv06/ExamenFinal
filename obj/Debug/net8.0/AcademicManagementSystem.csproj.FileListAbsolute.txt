@@ -406,3 +406,4 @@ C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicMan
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.pdb
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.genruntimeconfig.cache
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\ref\AcademicManagementSystem.dll
+C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.sourcelink.json
