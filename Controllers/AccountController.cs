@@ -1,3 +1,6 @@
+using AcademicManagementSystem.Models;
+using AcademicManagementSystem.Repositories;
+using AcademicManagementSystem.Services;
 using AcademicManagementSystem.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,6 +11,17 @@ namespace AcademicManagementSystem.Controllers;
 
 public class AccountController : Controller
 {
+    private readonly IRepositorio<Usuario> _usuarioRepositorio;
+    private readonly IValidacionRegistroService _validacionService;
+
+    public AccountController(
+        IRepositorio<Usuario> usuarioRepositorio,
+        IValidacionRegistroService validacionService)
+    {
+        _usuarioRepositorio = usuarioRepositorio;
+        _validacionService = validacionService;
+    }
+    
     [HttpGet]
     public IActionResult Login()
     {
@@ -22,41 +36,114 @@ public class AccountController : Controller
         {
             return View(model);
         }
-
-        if (model.UserName == "admin" && model.Password == "admin123")
+        var usuarios = await _usuarioRepositorio.FiltrarAsync(
+            u => u.UserName == model.UserName &&
+                 u.Password == model.Password
+        );
+        var usuario = usuarios.FirstOrDefault();
+        if (usuario == null)
         {
-            var claims = new List<Claim>
-            {
-                new(ClaimTypes.Name, model.UserName),
-                new(ClaimTypes.Role, "Administrador")
-            };
+            ModelState.AddModelError(
+                string.Empty,
+                "Usuario o contraseña incorrectos."
+            );
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                principal,
-                new AuthenticationProperties
-                {
-                    IsPersistent = model.RememberMe
-                });
-
-            return RedirectToAction("Index", "Home");
+            return View(model);
         }
+        string rol = usuario is Docente
+            ? "Docente"
+            : "Estudiante";
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, usuario.UserName),
+            new Claim(ClaimTypes.Role, rol)
+        };
+        var identity = new ClaimsIdentity(
+            claims,
+            CookieAuthenticationDefaults.AuthenticationScheme
+        );
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(identity),
+            new AuthenticationProperties
+            {
+                IsPersistent = model.RememberMe
+            }
+        );
+        return RedirectToAction("Index", "Home");
+    }
+    [HttpGet]
+    public IActionResult Register()
+    {
+        return View(new RegistroViewModel());
+    }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Register(
+        RegistroViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        try
+        {
+            var resultado = _validacionService
+                .ValidarEdad(model.Edad);
 
-        ModelState.AddModelError(string.Empty, "Credenciales inválidas. Use admin / admin123.");
-        return View(model);
+            Usuario usuario;
+            if (model.TipoUsuario == "Docente")
+            {
+                usuario = new Docente
+                {
+                    Nombre = model.Nombre,
+                    Documento = model.Documento,
+                    Edad = model.Edad,
+                    UserName = model.UserName,
+                    Password = model.Password,
+                    Especialidad = "Sin especialidad"
+                };
+            }
+            else
+            {
+                usuario = new Estudiante
+                {
+                    Nombre = model.Nombre,
+                    Documento = model.Documento,
+                    Edad = model.Edad,
+                    UserName = model.UserName,
+                    Password = model.Password,
+                    Matricula = "SIN-MATRICULA"
+                };
+            }
+            await _usuarioRepositorio.AgregarAsync(usuario);
+
+            TempData["MensajeExito"] =
+                resultado.mensaje;
+
+            return RedirectToAction(nameof(Login));
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                ex.Message
+            );
+
+            return View(model);
+        }
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout()
     {
-        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Index", "Home");
-    }
+        await HttpContext.SignOutAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme
+        );
 
+        return RedirectToAction("Login");
+    }
     public IActionResult AccessDenied()
     {
         return View();

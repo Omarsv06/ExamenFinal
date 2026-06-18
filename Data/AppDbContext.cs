@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
     {
     }
 
+    public DbSet<Usuario> Usuario => Set<Usuario>();
     public DbSet<Estudiante> Estudiantes => Set<Estudiante>();
     public DbSet<Docente> Docentes => Set<Docente>();
     public DbSet<Curso> Cursos => Set<Curso>();
@@ -20,12 +21,30 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Usuario>(entity =>
         {
             entity.HasKey(x => x.Id);
-            entity.Property(x => x.Nombre).HasMaxLength(150).IsRequired();
-            entity.Property(x => x.Documento).HasMaxLength(30).IsRequired();
+            
+            entity.Property(x => x.Nombre)
+            .HasMaxLength(150)
+            .IsRequired();
+
+            entity.Property(x => x.Documento)
+            .HasMaxLength(30)
+            .IsRequired();
+
+            entity.Property(x => x.Edad)
+            .IsRequired();
+
+            entity.Property(x => x.UserName)
+            .HasMaxLength(50)
+            .IsRequired();
+
+            entity.Property(x => x.Password)
+            .HasMaxLength(100)
+            .IsRequired();
+
             entity.HasDiscriminator<string>("TipoUsuario")
-                  .HasValue<Estudiante>("Estudiante")
-                  .HasValue<Docente>("Docente");
-        });
+            .HasValue<Estudiante>("Estudiante")
+            .HasValue<Docente>("Docente");
+            });
 
         modelBuilder.Entity<Estudiante>(entity =>
         {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AcademicManagementSystem.Controllers;
 
+[Authorize]
 public class CursosController : Controller
 {
     private readonly IRepositorio<Curso> _cursoRepositorio;
@@ -56,11 +57,6 @@ public class CursosController : Controller
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        if (!User.Identity!.IsAuthenticated)
-        {
-            return RedirectToAction("Index", "Registro");
-        }
-
         var viewModel = new CursoCreateViewModel();
         await CargarDocentesAsync(viewModel);
 
@@ -172,6 +168,7 @@ public class CursosController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> JsonCursos()
     {

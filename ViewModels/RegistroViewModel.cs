@@ -5,7 +5,7 @@ namespace AcademicManagementSystem.ViewModels;
 public class RegistroViewModel
 {
     [Required]
-    [Display(Name = "Nombre")]
+    [Display(Name = "Nombre completo")]
     public string Nombre { get; set; } = string.Empty;
 
     [Required]
@@ -13,11 +13,19 @@ public class RegistroViewModel
     public string Documento { get; set; } = string.Empty;
 
     [Required]
-    [Range(1, 120, ErrorMessage = "La edad debe ser válida")]
     [Display(Name = "Edad")]
     public int Edad { get; set; }
 
     [Required]
-    [Display(Name = "Tipo de Usuario")]
-    public string TipoUsuario { get; set; } = string.Empty; // "Docente" o "Estudiante"
+    [Display(Name = "Usuario")]
+    public string UserName { get; set; } = string.Empty;
+
+    [Required]
+    [DataType(DataType.Password)]
+    [Display(Name = "Contraseña")]
+    public string Password { get; set; } = string.Empty;
+
+    [Required]
+    [Display(Name = "Rol")]
+    public string TipoUsuario { get; set; } = string.Empty;
 }

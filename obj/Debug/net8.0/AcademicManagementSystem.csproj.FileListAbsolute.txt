@@ -271,8 +271,8 @@ E:\Descargas\ExamFinal\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Deb
 E:\Descargas\ExamFinal\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.genruntimeconfig.cache
 E:\Descargas\ExamFinal\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\ref\AcademicManagementSystem.dll
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\bin\Debug\net8.0\appsettings.json
-C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\bin\Debug\net8.0\AcademicManagementSystem.staticwebassets.endpoints.json
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\bin\Debug\net8.0\AcademicManagementSystem.staticwebassets.runtime.json
+C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\bin\Debug\net8.0\AcademicManagementSystem.staticwebassets.endpoints.json
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\bin\Debug\net8.0\AcademicManagementSystem.exe
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\bin\Debug\net8.0\AcademicManagementSystem.deps.json
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\bin\Debug\net8.0\AcademicManagementSystem.runtimeconfig.json
@@ -391,6 +391,7 @@ C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicMan
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.RazorAssemblyInfo.cache
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.RazorAssemblyInfo.cs
+C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.sourcelink.json
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
@@ -406,4 +407,3 @@ C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicMan
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.pdb
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.genruntimeconfig.cache
 C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\ref\AcademicManagementSystem.dll
-C:\Users\Usuario-6-2024\OneDrive\Escritorio\FinalDiseñoAplicaciones\AcademicManagementSystem\obj\Debug\net8.0\AcademicManagementSystem.sourcelink.json
