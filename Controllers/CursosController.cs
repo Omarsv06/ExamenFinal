@@ -1,9 +1,9 @@
 using AcademicManagementSystem.Models;
 using AcademicManagementSystem.Repositories;
 using AcademicManagementSystem.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization; //Controla quién puede acceder a determinadas partes de la aplicación.
+using Microsoft.AspNetCore.Mvc; //Importa las funcionalidades principales del patrón MVC
+using Microsoft.AspNetCore.Mvc.Rendering; //Permite preparar datos para controles visuales como listas desplegables en las vistas.
 
 namespace AcademicManagementSystem.Controllers;
 
